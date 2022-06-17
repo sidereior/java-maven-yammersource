@@ -27,9 +27,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 
 public class SourceAccess {
@@ -49,13 +52,9 @@ public class SourceAccess {
             //yammer@lakeshore.com
             //z3K!+V!>OW@>z>KyI#%%
             String val = getData("1559814952", "null", "yammer@lakeshore.com", "z3K!+V!>OW@>z>KyI#%%");
-            System.out.println("this ahppened?");
+            System.out.println("this gotData?");
             System.out.println(val);
-            //Double last = solveString(val);
-            //System.out.println(last);
-            // Double ret=Double.parseDouble(last);
-            // System.out.println(last);
-            // System.out.println("errored?");
+            System.out.println("probable");
         } catch (Exception e) {
         }
     }
@@ -68,18 +67,21 @@ public class SourceAccess {
         // formatting target is awlays cpatial first leet of words
         //String SYM = "[" + target + "]";
 
-
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\user\\eclipse-workspace\\Selenium\\Driver\\chromedriver.exe");
-
-        WebDriver driver = new ChromeDriver();
-        System.out.println("this fgfg?");
-        driver.get("https://login.microsoftonline.com/common/oauth2/authorize?client_id=00000005-0000-0ff1-ce00-000000000000&domain_hint=lakeshore.com&msafed=0&nonce=3ff7b976fcfdf4036f7f800c00b067f9555977d10dd53d00112f0565f9a8e79c&redirect_uri=https%3A%2F%2Fpersona.yammer.com%2Foffice_sessions%3F&resource=https%3A%2F%2Fwww.yammer.com%2F&response_mode=form_post&response_type=id_token+code&scope=open_id&site_id=501393&state=1f5398bb9ab572287b8c42027101dc60caba89709b2d8787c963835a1a5474dc");
-        System.out.println("this ahphggfhgfhfghpened?");
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions options= new ChromeOptions();
+        options.addArguments("incognito");
+        options.addArguments("start-maximized");
+        ChromeDriver driver = new ChromeDriver(options);
+        //driver.manage.window.maximize();
+        System.out.println("setProperty");
+        System.out.println("this occurs?");
+        driver.get("https://login.microsoftonline.com/common/oauth2/authorize?client_id=00000005-0000-0ff1-ce00-000000000000&domain_hint=lakeshore.com&msafed=0&nonce=3ff7b976fcfdf4036f7f800c00b067f9555977d10dd53d00112f0565f9a8e79c&redirect_uri=https%3A%2F%2Fpersona.yammer.com%2Foffice_sessions%3F&resource=https%3A%2F%2Fwww.yammer.com%2F&response_mode=form_post&response_type=id_token+code&scope=open_id&site_id=501393&state=1f5398bb9ab572287b8c42027101dc60caba89709b2d8787c963835a1a5474dc&sso_reload=true");
+        System.out.println("this occured?");
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } catch (Exception e)
         {
-            throw new RuntimeException("Error occured in loading webpage, check that you have an internet connection.");
+            throw new RuntimeException("Error occurred in loading webpage, check that you have an internet connection.");
         }
         System.out.println(driver.getCurrentUrl());
         System.out.println("------------page-current-source----------");

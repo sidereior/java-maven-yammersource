@@ -51,7 +51,7 @@ public class SourceAccess {
             System.out.println("this ahppened?");
             //yammer@lakeshore.com
             //z3K!+V!>OW@>z>KyI#%%
-            String val = getData("1559814952", "null", "yammer@lakeshore.com", "z3K!+V!>OW@>z>KyI#%%");
+            String val = getData("1559814952", "null", "------", "-----------");
             System.out.println("this gotData?");
             System.out.println(val);
             System.out.println("probable");

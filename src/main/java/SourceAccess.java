@@ -260,39 +260,88 @@ public class SourceAccess {
         {
             return "failcase1";
         }
+
+
         List<WebElement> seeMore = driver.findElements(By.tagName("button"));
-        System.out.println("clicks the see more  + size  " + seeMore.size());
+       // System.out.println("clicks the see more  + size  " + seeMore.size());
         for (WebElement anElement : seeMore) {
             if(anElement.getAttribute("class").equals("link-98") && anElement.getText().equals("see more"))
             {
                 anElement.click();
-                System.out.println("clicks see more onc");
+                //System.out.println("clicks see more onc");
             }
         }
 
-        System.out.println(driver.getCurrentUrl());
+       // System.out.println(driver.getCurrentUrl());
         //these lines have unhandled exceptions\
         ArrayList<WebElement> pathList = new ArrayList<WebElement>();
-        List<WebElement> textBoxes = driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div"));
-        System.out.println(textBoxes.size());
-        for(int i=0; i<50; i++)
+        ////*[@id="root"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]
+        List<WebElement> textBoxes = driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]"));
+        //System.out.println("--------what we are looking for length: " + textBoxes.size());
+        //System.out.println("here index zero: " + textBoxes.get(0).getAttribute("innerHTML"));
+        //System.out.println("here: " + textBoxes.get(1).getAttribute("innerHTML"));
+       // System.out.println("index zero text: " + textBoxes.get(0).getText());
+        //System.out.println("index one text: " + textBoxes.get(1).getText());
+        for(int i=1; i<50; i++)
         {
-            if(driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]")).size()!=0)
+            //System.out.println("iteration number" + i );
+            ////*[@id="root"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]
+            ////*[@id="root"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div[2]/ul/li[2]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]
+            if(driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" +  i + "]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]")).size()!=0)
             {
-                System.out.println("this ever ran");
-                pathList.add(driver.findElement(By.xpath(new String("//*[@id=\"root\"]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]"))));
+                //System.out.println("this ever ran");
+                pathList.add(driver.findElement(By.xpath(new String("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]"))));
             }
+
         }
-        System.out.println(pathList.size());
+        //System.out.println("existsFor");
 
         String allTexts ="";
         for (WebElement anElement : pathList) {
-            allTexts = allTexts + anElement.getAttribute("innterHTML");
+            allTexts = allTexts + anElement.getAttribute("innerHTML");
+            for(int i=0; i<50; i++) {
+                if (driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img")).size() != 0) {
+                    String finder = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img")).getAttribute("src");
+                    String htmlFinder = "<img src=\"" + finder + "\">";
+                    allTexts = allTexts + "<br>";
+                    allTexts = allTexts + htmlFinder;
+                    allTexts = allTexts + "<br>";
+                }
+            }
+            allTexts = allTexts + new String("<br>");
+            allTexts = allTexts + new String("<br>");
+            allTexts = allTexts + new String("<br>");
+
         }
+
         System.out.println(allTexts);
-        System.out.println("did not catch exception e");
+        BufferedWriter writer = new BufferedWriter(new FileWriter("output" + Math.random()*10));
+        writer.write(allTexts);
+
+        writer.close();
+
+
+
+        return "passcase1";
+
+
+
+
+        //allTexts continas the htm,l
+        //now add images
+        //then make see more dynamic
+
+        ////*[@id="root"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img
+        ////*[@id="root"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[2]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img
+
+
+
 
         /*
+
+        String images = "";
+        images = images + driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img")).getAttribute("src");
+        System.out.println(images);
 
         List<WebElement> textBoxes = driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]"));
         System.out.println("------------textBoxesSize = " + textBoxes.size());
@@ -342,7 +391,7 @@ public class SourceAccess {
 
          */
         //enterSearch.get(0).click();
-        return "passcase1";
+
         //WebDriverWait wdw = new WebDriverWait(driver, Duration.ofSeconds((long)30));
        // wdw.until(!driver.getCurrentUrl().equals("https://login.microsoftonline.com/common/oauth2/authorize?client_id=00000005-0000-0ff1-ce00-000000000000&domain_hint=lakeshore.com&msafed=0&nonce=3ff7b976fcfdf4036f7f800c00b067f9555977d10dd53d00112f0565f9a8e79c&redirect_uri=https%3A%2F%2Fpersona.yammer.com%2Foffice_sessions%3F&resource=https%3A%2F%2Fwww.yammer.com%2F&response_mode=form_post&response_type=id_token+code&scope=open_id&site_id=501393&state=1f5398bb9ab572287b8c42027101dc60caba89709b2d8787c963835a1a5474dc"));
 

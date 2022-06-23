@@ -193,7 +193,7 @@ public class SourceAccess {
         //System.out.println("faield to exit");
         try
         {
-            Thread.sleep(10000);
+            Thread.sleep(3500);
         }
         catch (Exception e)
         {
@@ -251,50 +251,6 @@ public class SourceAccess {
         {
             return "failcase1";
         }
-
-        /*
-        List<WebElement> searchBar = driver.findElements(By.id("ms-searchux-input-0"));
-        //System.out.println("not fucntional: " + searchBar.size());
-        for (WebElement anElement : searchBar)
-        {
-            //System.out.println("executed it once");
-            if(anElement.getAttribute("role").equals("combobox"))
-            {
-                anElement.click();
-                anElement.sendKeys("Caroline Milyard");
-                try
-                {
-                    Thread.sleep(500);
-                }
-                catch (Exception e)
-                {
-                    return "failcase1";
-                }
-                anElement.sendKeys(Keys.ARROW_DOWN);
-                try
-                {
-                    Thread.sleep(500);
-                }
-                catch (Exception e)
-                {
-                    return "failcase1";
-                }
-                driver.switchTo().activeElement().sendKeys(Keys.ENTER);
-            }
-        }
-
-         */
-        /*
-        try
-        {
-            Thread.sleep(2500);
-        }
-        catch (Exception e)
-        {
-            return "failcase1";
-        }
-
-         */
         driver.get("https://web.yammer.com/main/org/lakeshore.com/groups/eyJfdHlwZSI6Ikdyb3VwIiwiaWQiOiIxMTMxODUwMzAxNDQifQ/all");
         try
         {
@@ -315,18 +271,42 @@ public class SourceAccess {
         }
 
         System.out.println(driver.getCurrentUrl());
-        System.out.println(driver.getPageSource());
-
-        String sourcePage = driver.getPageSource().substring(1,100);
-        System.out.println(sourcePage);
-        if(sourcePage.contains("(\"The European Space Agency and NASA's\")"))
-        {
-            System.out.println("sourcePage works properly");
-        }
-
-        //these lines have unhandled exceptions
+        //these lines have unhandled exceptions\
+        ArrayList<WebElement> pathList = new ArrayList<WebElement>();
         List<WebElement> textBoxes = driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div"));
-        System.out.println(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div")).getText());
+        System.out.println(textBoxes.size());
+        for(int i=0; i<50; i++)
+        {
+            if(driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]")).size()!=0)
+            {
+                System.out.println("this ever ran");
+                pathList.add(driver.findElement(By.xpath(new String("//*[@id=\"root\"]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]"))));
+            }
+        }
+        System.out.println(pathList.size());
+
+        String allTexts ="";
+        for (WebElement anElement : pathList) {
+            allTexts = allTexts + anElement.getAttribute("innterHTML");
+        }
+        System.out.println(allTexts);
+        System.out.println("did not catch exception e");
+
+        /*
+
+        List<WebElement> textBoxes = driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]"));
+        System.out.println("------------textBoxesSize = " + textBoxes.size());
+        textBoxes.add(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]/p[4]")));
+        */
+        //path 1
+        ////*[@id="root"]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]
+
+        //path 2
+        ////*[@id="root"]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[2]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]
+
+
+
+        //System.out.println(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div")).getSize());
 
         //First image of the black hole at the center of our galaxy
         //calculate everything relative to this
@@ -334,12 +314,7 @@ public class SourceAccess {
         ///html/body/div[1]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div
         //#root > div > div.pageLayout-105 > div > div.contentColumn-102 > div > div > div.centerColumn-705 > div > div > div.y-block.block-221 > ul > li:nth-child(1) > div > div > div > div > div > div > div.y-block.qaThreadStarter.block-428 > div.y-block.block-442 > div > div > div > span.text-447 > p:nth-child(1) > span
 
-        String allTexts ="";
-        System.out.println("textboxessize  " + textBoxes.size());
-        for (WebElement anElement : textBoxes) {
-            allTexts = allTexts + anElement.getText();
-            ////*[@id="root"]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[2]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[2]/button/span
-        }
+
 
 
         //get every part of the string, add to txt file that will be named .html
@@ -366,13 +341,7 @@ public class SourceAccess {
         }
 
          */
-
-
-
         //enterSearch.get(0).click();
-
-
-
         return "passcase1";
         //WebDriverWait wdw = new WebDriverWait(driver, Duration.ofSeconds((long)30));
        // wdw.until(!driver.getCurrentUrl().equals("https://login.microsoftonline.com/common/oauth2/authorize?client_id=00000005-0000-0ff1-ce00-000000000000&domain_hint=lakeshore.com&msafed=0&nonce=3ff7b976fcfdf4036f7f800c00b067f9555977d10dd53d00112f0565f9a8e79c&redirect_uri=https%3A%2F%2Fpersona.yammer.com%2Foffice_sessions%3F&resource=https%3A%2F%2Fwww.yammer.com%2F&response_mode=form_post&response_type=id_token+code&scope=open_id&site_id=501393&state=1f5398bb9ab572287b8c42027101dc60caba89709b2d8787c963835a1a5474dc"));

@@ -2,6 +2,8 @@ import java.io.*;
 import java.security.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,10 +25,7 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.commons.net.ntp.TimeStamp;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -105,8 +104,9 @@ public class SourceAccess {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options= new ChromeOptions();
         options.addArguments("incognito");
-        options.addArguments("start-maximized");
+        options.addArguments("start-minimized");
         ChromeDriver driver = new ChromeDriver(options);
+        driver.manage().window().setPosition(new Point(-2000,0));
         //driver.manage.window.maximize();
         //System.out.println("setProperty");
         //System.out.println("this occurs?");
@@ -313,148 +313,17 @@ public class SourceAccess {
             allTexts = allTexts + new String("<br>");
 
         }
-
+        Date date = new Date();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int year  = localDate.getYear();
+        int month = localDate.getMonthValue();
+        int day   = localDate.getDayOfMonth();
         System.out.println(allTexts);
-        BufferedWriter writer = new BufferedWriter(new FileWriter("output" + Math.random()*10));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("output"  + month + day + year));
         writer.write(allTexts);
-
         writer.close();
-
-
-
+        driver.close();
         return "passcase1";
-
-
-
-
-        //allTexts continas the htm,l
-        //now add images
-        //then make see more dynamic
-
-        ////*[@id="root"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img
-        ////*[@id="root"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[2]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img
-
-
-
-
-        /*
-
-        String images = "";
-        images = images + driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img")).getAttribute("src");
-        System.out.println(images);
-
-        List<WebElement> textBoxes = driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]"));
-        System.out.println("------------textBoxesSize = " + textBoxes.size());
-        textBoxes.add(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]/p[4]")));
-        */
-        //path 1
-        ////*[@id="root"]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]
-
-        //path 2
-        ////*[@id="root"]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[2]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]
-
-
-
-        //System.out.println(driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div")).getSize());
-
-        //First image of the black hole at the center of our galaxy
-        //calculate everything relative to this
-
-        ///html/body/div[1]/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div
-        //#root > div > div.pageLayout-105 > div > div.contentColumn-102 > div > div > div.centerColumn-705 > div > div > div.y-block.block-221 > ul > li:nth-child(1) > div > div > div > div > div > div > div.y-block.qaThreadStarter.block-428 > div.y-block.block-442 > div > div > div > span.text-447 > p:nth-child(1) > span
-
-
-
-
-        //get every part of the string, add to txt file that will be named .html
-
-
-        ///click on profile
-        //        //make sure it loads everything
-        //        //get source code/data as string or we can do search element again??
-        //        //put this in string
-        //        //use this string to basically write html (fill in div/span/etc) to
-        /*
-        List<WebElement> nameBar = driver.findElements(By.id("ms-searchux-input-0"));
-        System.out.println("not fucntional: " + searchBar.size());
-        for (WebElement anElement : nameBar)
-        {
-            System.out.println("executed it once");
-            if(anElement.getAttribute("role").equals("combobox"))
-            {
-                anElement.click();
-                anElement.sendKeys("Caroline Milyard");
-                anElement.sendKeys(Keys.ENTER);
-                //System.out.println("clicked no stay sign in key");
-            }
-        }
-
-         */
-        //enterSearch.get(0).click();
-
-        //WebDriverWait wdw = new WebDriverWait(driver, Duration.ofSeconds((long)30));
-       // wdw.until(!driver.getCurrentUrl().equals("https://login.microsoftonline.com/common/oauth2/authorize?client_id=00000005-0000-0ff1-ce00-000000000000&domain_hint=lakeshore.com&msafed=0&nonce=3ff7b976fcfdf4036f7f800c00b067f9555977d10dd53d00112f0565f9a8e79c&redirect_uri=https%3A%2F%2Fpersona.yammer.com%2Foffice_sessions%3F&resource=https%3A%2F%2Fwww.yammer.com%2F&response_mode=form_post&response_type=id_token+code&scope=open_id&site_id=501393&state=1f5398bb9ab572287b8c42027101dc60caba89709b2d8787c963835a1a5474dc"));
-
-        //System.out.println(driver.getCurrentUrl());
-        /*
-        URL url = new URL("https://www.yammer.com/api/v1/messages.json");
-        URLConnection urlConn = url.openConnection();
-        InputStreamReader inStream = new InputStreamReader(urlConn.getInputStream());
-        BufferedReader buff = new BufferedReader(inStream);
-        ArrayList<String> listResults = new ArrayList<>();
-        String line = buff.readLine();
-        String result = "didn't work";
-        while (line != null) {
-            //System.out.println(line);
-            if (target.equals("null")) {
-                if (line.contains("\"sender_id\":" + userID)) {
-                    if (!(line.contains("\"replied_to_id\":") && line.contains("\"group_id\":113185030144") && line.contains("\"message_type\":\"update\""))) {
-                        result = line;
-                        listResults.add(line);
-                        //System.out.println(line);
-                    }
-                }
-            } else if (!target.equals("null")) {
-                if (line.contains("\"sender_id\":" + userID)) {
-                    if (!(line.contains("\"replied_to_id\":") && line.contains("\"group_id\":113185030144") && line.contains("\"message_type\":\"update\"") && line.contains(target))) {
-                        result = line;
-                        listResults.add(line);
-                        //System.out.println(line);
-                    }
-                }
-            }
-            else if (!target.equals("target")) {
-                if (line.contains("\"sender_id\":" + userID)) {
-                    if (!(line.contains("\"replied_to_id\":") && line.contains("\"group_id\":113185030144") && line.contains("\"message_type\":\"update\"") && line.contains(target))) {
-                        result = line;
-                        listResults.add(line);
-                        //System.out.println(line);
-                    }
-                }
-            }
-            else if (!target.equals("sender_id")) {
-                if (line.contains("\"sender_id\":" + userID)) {
-                    if (!(line.contains("\"replied_to_id\":") && line.contains("\"group_id\":113185030144") && line.contains("\"message_type\":\"update\"") && line.contains(target))) {
-                        result = line;
-                        listResults.add(line);
-                        //System.out.println(line);
-                    }
-                }
-            }
-        }
-        inStream.close();
-        buff.close();
-        //System.out.println("----------------");
-        //System.out.println(result);
-        //System.out.println("----------------");
-        for (int i = 0; i < listResults.size(); i++){
-            //System.out.println("-----" + listResults.get(i) + "-------");
-        }
-        return result;
-        // //System.out.println("work");
-
-         */
-
     }
 
     public static Double solveString(String result) {
@@ -469,8 +338,6 @@ public class SourceAccess {
                     break;
                 }
             }
-            // //System.out.println(last);
-
         } else if (result.contains("</span></b></td>")) {
             value = result.substring(0, result.indexOf("</span></b></td>"));
             last = value;
@@ -480,9 +347,7 @@ public class SourceAccess {
                     break;
                 }
             }
-            // //System.out.println(last);
         } else if (result.contains("</b></td>")) {
-            // //System.out.println("did this work");
             value = result.substring(0, result.indexOf("</b></td>"));
             last = value;
             for (int i = value.length() - 1; i >= 0; i--) {
@@ -491,18 +356,13 @@ public class SourceAccess {
                     break;
                 }
             }
-
         }
-        // do it here:
-        // //System.out.println(last);
         if (last.contains("%") || last.contains("M") || last.contains("B") || last.contains("K")) {
             try {
-                // //System.out.println("here");
                 String dubs = (last.substring(0, last.length() - 1));
                 try {
                     dubs = dubs.replaceAll(",", "");
                     Double fin = Double.parseDouble(dubs);
-                    // //System.out.println(fin);
                     return fin;
 
                 } catch (NumberFormatException b) {
@@ -512,25 +372,16 @@ public class SourceAccess {
                 throw new RuntimeException("could not be resovled to type double");
             }
         } else {
-            // //System.out.println("did this run");
             try {
-                // //System.out.println("got here tho");
-                // //System.out.println(last);
-                // so its with the string
                 String ret2 = last;
                 ret2 = ret2.replaceAll(",", "");
-                // //System.out.println("res");
-                // //System.out.println(ret2);
 
                 Double fin = Double.parseDouble(ret2);
-                // //System.out.println(fin);
                 return fin;
 
             } catch (NumberFormatException b) {
                 throw new RuntimeException("could not be resolved to type double");
             }
         }
-
-        // return null;
     }
 }

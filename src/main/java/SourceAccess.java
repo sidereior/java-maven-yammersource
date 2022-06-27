@@ -15,8 +15,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class SourceAccess {
 
-
-
+    private static String lastly ="did not work";
     public static void main(String[] args) {
 
         String currTime=Instant.now().toString();
@@ -32,7 +31,7 @@ public class SourceAccess {
         try {
             long firstTime = System.currentTimeMillis();
             long lastTime = System.currentTimeMillis();
-            while(x>0)
+            while(pass!=1 && x>0)
             {
 
                 String val = getData("1559814952", "null", "yammer@lakeshore.com", "z3K!+V!>OW@>z>KyI#%%");
@@ -45,6 +44,7 @@ public class SourceAccess {
                 {
                     lastTime = System.currentTimeMillis();
                     pass++;
+
                 }
                 else
                 {
@@ -53,19 +53,21 @@ public class SourceAccess {
                 }
                 prRate=100*(pass/x);
                 x--;
-                System.out.println("");
-                System.out.println("----------TESTCASE" + x + "----------");
-                System.out.println("result: " + val);
-                System.out.println("pass: " + pass);
-                System.out.println("fail: " + fail);
-                System.out.println("uniqueFail: " + uniqueFail);
-                System.out.println("prRate: " + prRate);
-                System.out.println("-------------------------");
-                System.out.println("");
+                //System.out.printlnn("");
+                //System.out.printlnn("----------TESTCASE" + x + "----------");
+                //System.out.printlnn("result: " + val);
+                //System.out.printlnn("pass: " + pass);
+                //System.out.printlnn("fail: " + fail);
+                //System.out.printlnn("uniqueFail: " + uniqueFail);
+                //System.out.printlnn("prRate: " + prRate);
+                //System.out.printlnn("-------------------------");
+                //System.out.printlnn("");
             }
         } catch (Exception e) {
             fail++;
         }
+
+        //add html stuff here
     }
 
     public static String getData(String userID, String target, String username, String pass) throws IOException {
@@ -78,8 +80,10 @@ public class SourceAccess {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("incognito");
-        options.addArguments("start-maximized");
+        options.addArguments("start-minimized");
+
         ChromeDriver driver = new ChromeDriver(options);
+        driver.manage().window().setPosition(new Point(-20000,0));
         try {
             long timeStart = System.currentTimeMillis();
             long timeEnd = System.currentTimeMillis();
@@ -90,43 +94,43 @@ public class SourceAccess {
             int day = localDate.getDayOfMonth();
 
 
-            //driver.manage().window().setPosition(new Point(-2000,0));
+            //
             //driver.manage.window.maximize();
-            //System.out.println("setProperty");
-            //System.out.println("this occurs?");
+            ////System.out.printlnn("setProperty");
+            ////System.out.printlnn("this occurs?");
             driver.get("https://login.microsoftonline.com/common/oauth2/authorize?client_id=00000005-0000-0ff1-ce00-000000000000&domain_hint=lakeshore.com&msafed=0&nonce=3ff7b976fcfdf4036f7f800c00b067f9555977d10dd53d00112f0565f9a8e79c&redirect_uri=https%3A%2F%2Fpersona.yammer.com%2Foffice_sessions%3F&resource=https%3A%2F%2Fwww.yammer.com%2F&response_mode=form_post&response_type=id_token+code&scope=open_id&site_id=501393&state=1f5398bb9ab572287b8c42027101dc60caba89709b2d8787c963835a1a5474dc&sso_reload=true");
-            //System.out.println("this occured?");
+            ////System.out.printlnn("this occured?");
             try {
                 Thread.sleep(2500);
             } catch (Exception e) {
                 return "failcase1";
                 //throw new RuntimeException("Error occurred in loading webpage, check that you have an internet connection.");
             }
-            //System.out.println(driver.getCurrentUrl());
-            //System.out.println("------------page-current-source----------");
-            //System.out.println(driver.getPageSource());
-            //System.out.println("------------end-page-current-source------");
+            ////System.out.printlnn(driver.getCurrentUrl());
+            ////System.out.printlnn("------------page-current-source----------");
+            ////System.out.printlnn(driver.getPageSource());
+            ////System.out.printlnn("------------end-page-current-source------");
             List<WebElement> someElements = driver.findElements(By.cssSelector("input"));
             //this is the problem here with some elements
-            //System.out.println(someElements.size());
+            ////System.out.printlnn(someElements.size());
             for (WebElement anElement : someElements) {
                 if (anElement.getAttribute("name").equals("loginfmt")) {
                     anElement.sendKeys(username);
-                    //System.out.println("clicked the button");
+                    ////System.out.printlnn("clicked the button");
                 }
             }
             //WebElement element = driver.findElement(By.id("i0116"));
-            //System.out.println("finished send login-lookup-container");
+            ////System.out.printlnn("finished send login-lookup-container");
             List<WebElement> someElements2 = driver.findElements(By.id("idSIButton9"));
             for (WebElement anElement : someElements2) {
                 if (anElement.getAttribute("type").equals("submit")) {
                     anElement.click();
-                    //System.out.println("clicked the button");
+                    ////System.out.printlnn("clicked the button");
                 }
             }
 
             //this is the problem here with some elements
-            ////System.out.println(someElements.size());
+            //////System.out.printlnn(someElements.size());
 
             try {
                 //TODO: make relative to computer that is running it
@@ -136,22 +140,22 @@ public class SourceAccess {
                 //throw new RuntimeException("Error occurred in loading webpage, check that you have an internet connection.");
             }
 
-            //System.out.println("input pasasssword!!");
+            ////System.out.printlnn("input pasasssword!!");
             List<WebElement> Pass = driver.findElements(By.id("i0118"));
-            //System.out.println(Pass.size());
+            ////System.out.printlnn(Pass.size());
             for (WebElement anElement : Pass) {
                 if (anElement.getAttribute("name").equals("passwd")) {
-                    ////System.out.println("-------occurs");
+                    //////System.out.printlnn("-------occurs");
                     anElement.sendKeys(pass);
                 }
             }
 
             List<WebElement> passSubmit = driver.findElements(By.id("idSIButton9"));
-            //System.out.println(passSubmit.size());
+            ////System.out.printlnn(passSubmit.size());
             for (WebElement anElement : passSubmit) {
                 anElement.click();
             }
-            //System.out.println("finished sign in");
+            ////System.out.printlnn("finished sign in");
             try {
                 Thread.sleep(2500);
             } catch (Exception e) {
@@ -163,12 +167,12 @@ public class SourceAccess {
             for (WebElement anElement : noSignIn) {
                 if (anElement.getAttribute("class").equals("win-button button-secondary button ext-button secondary ext-secondary")) {
                     anElement.click();
-                    //System.out.println("clicked no stay sign in key");
+                    ////System.out.printlnn("clicked no stay sign in key");
                 }
             }
-            //System.out.println("clicked no sign in option");
-            //System.out.println(driver.getCurrentUrl());
-            //System.out.println("faield to exit");
+            ////System.out.printlnn("clicked no sign in option");
+            ////System.out.printlnn(driver.getCurrentUrl());
+            ////System.out.printlnn("faield to exit");
             try {
                 Thread.sleep(3500);
             } catch (Exception e) {
@@ -192,7 +196,7 @@ public class SourceAccess {
                     //    if(anElement.getAttribute("class").equals("win-button button-secondary button ext-button secondary ext-secondary"))
                     //    {
                     //        anElement.click();
-                    //System.out.println("clicked no stay sign in key");
+                    ////System.out.printlnn("clicked no stay sign in key");
                     //    }
                     //}
                 }
@@ -228,46 +232,45 @@ public class SourceAccess {
             if (seeMore.size() == 0) {
                 return "failcase1";
             }
-            System.out.println("clicks the see more  + size  " + seeMore.size());
+            //System.out.printlnn("clicks the see more  + size  " + seeMore.size());
             for (WebElement anElement : seeMore) {
                 if (anElement.getAttribute("class").equals("link-98") && anElement.getText().equals("see more")) {
                     anElement.click();
-                    //System.out.println("clicks see more onc");
+                    ////System.out.printlnn("clicks see more onc");
                 }
             }
 
 
-            // System.out.println(driver.getCurrentUrl());
+            // //System.out.printlnn(driver.getCurrentUrl());
             //these lines have unhandled exceptions\
             ArrayList<WebElement> pathList = new ArrayList<WebElement>();
             ////*[@id="root"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]
             List<WebElement> textBoxes = driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]"));
-            //System.out.println("--------what we are looking for length: " + textBoxes.size());
-            //System.out.println("here index zero: " + textBoxes.get(0).getAttribute("innerHTML"));
-            //System.out.println("here: " + textBoxes.get(1).getAttribute("innerHTML"));
-            // System.out.println("index zero text: " + textBoxes.get(0).getText());
-            //System.out.println("index one text: " + textBoxes.get(1).getText());
+            ////System.out.printlnn("--------what we are looking for length: " + textBoxes.size());
+            ////System.out.printlnn("here index zero: " + textBoxes.get(0).getAttribute("innerHTML"));
+            ////System.out.printlnn("here: " + textBoxes.get(1).getAttribute("innerHTML"));
+            // //System.out.printlnn("index zero text: " + textBoxes.get(0).getText());
+            ////System.out.printlnn("index one text: " + textBoxes.get(1).getText());
             for (int i = 1; i < 50; i++) {
-                //System.out.println("iteration number" + i );
+                ////System.out.printlnn("iteration number" + i );
                 ////*[@id="root"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]
                 ////*[@id="root"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div[2]/ul/li[2]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]
                 if (driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]")).size() != 0) {
-                    //System.out.println("this ever ran");
+                    ////System.out.printlnn("this ever ran");
                     pathList.add(driver.findElement(By.xpath(new String("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]"))));
                 }
-
             }
 
-            System.out.println("existsFor");
+            //System.out.printlnn("existsFor");
 
             String allTexts = "";
-            System.out.println("pathList size: " + pathList.size());
+            //System.out.printlnn("pathList size: " + pathList.size());
 
             for (WebElement anElement : pathList) {
                 allTexts = allTexts + anElement.getAttribute("innerHTML");
                 for (int i = 0; i < 50; i++) {
                     if (driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img")).size() != 0) {
-                        System.out.println("foundElement" + i);
+                        //System.out.printlnn("foundElement" + i);
                         String finder = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img")).getAttribute("src");
                         String htmlFinder = "<img src=\"" + finder + "\">";
                         allTexts = allTexts + "<br>";
@@ -280,27 +283,28 @@ public class SourceAccess {
                 allTexts = allTexts + new String("<br>");
 
             }
-            System.out.println("parses text");
-            System.out.println("allTexts: " + allTexts);
+            //System.out.printlnn("parses text");
+            //System.out.printlnn("allTexts: " + allTexts);
             BufferedWriter writer = new BufferedWriter(new FileWriter("output" + month + day + year));
             writer.write(allTexts);
-            System.out.println("writes text");
+            //System.out.printlnn("writes text");
             writer.close();
             driver.quit();
             //File exists = new File("output" + month + day + year + ".txt");
             //BufferedReader br = new BufferedReader(new FileReader(exists));
-            System.out.println("reads text");
+            //System.out.printlnn("reads text");
             //String line = br.readLine();
             //if (exists.exists() &&  line.contains("<br>")) {
               //  exists.delete();
-                //System.out.println("runmtime for method = " + ((timeEnd - timeStart)/1000));
+                ////System.out.printlnn("runmtime for method = " + ((timeEnd - timeStart)/1000));
                 //return "passcase1";
             //}
-            //System.out.println("getshere");
-            System.out.println(allTexts);
+            ////System.out.printlnn("getshere");
+            //System.out.printlnn(allTexts);
             File exists = new File("output" + month + day + year + ".txt");
-            exists.delete();
+
             //gives error connection reset
+            lastly=allTexts;
             return "passcase1";
         }
         catch (Exception e) {

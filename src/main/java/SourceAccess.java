@@ -37,7 +37,6 @@ public class SourceAccess {
             long firstTime = System.currentTimeMillis();
             long lastTime = System.currentTimeMillis();
             while (pass != 1 && x > 0) {
-
                 String val = getData("1559814952", "null", "yammer@lakeshore.com", "z3K!+V!>OW@>z>KyI#%%");
                 if (val.equals("failcase1")) {
                     lastTime = System.currentTimeMillis();
@@ -66,22 +65,33 @@ public class SourceAccess {
             fail++;
         }
         //add html stuff here
-        lastly = solveString(lastly);
-        File htmlTemplateFile = new File("index.html");
+        File htmlTemplateFile = new File("new.html");
         try {
-            String htmlString = FileUtils.readFileToString(htmlTemplateFile, (Charset) null);
-            String title = "New Page";
-            String body = "This is Body";
-            htmlString = htmlString.replace("$title", title);
-            htmlString = htmlString.replace("$body", body);
-            File newHtmlFile = new File("new.html");
-            FileUtils.writeStringToFile(newHtmlFile, htmlString, (Charset) null);
+            System.out.println("here1");
+            String htmlString = FileUtils.readFileToString(htmlTemplateFile, "UTF-8");
+            System.out.println("here2");
+            String para1 = lastly.substring(0, lastly.indexOf("<br><br><br><br><p class="));
+            para1=solveString(para1);
+            System.out.println(para1);
+            System.out.println("here3");
+            String para2 = lastly.substring(lastly.indexOf("<br><br><br><br><p class="));
+            para2=solveString(para2);
+            System.out.println(para2);
+            System.out.println("here4");
+            htmlString = htmlString.replace("$p1", para1);
+            System.out.println("here5");
+            htmlString = htmlString.replace("$p2", para2);
+            System.out.println("here6");
+            File newHtmlFile = new File("index.html");
+            System.out.println("here7");
+            FileUtils.writeStringToFile(newHtmlFile, htmlString, "UTF-8");
+            System.out.println("here8");
             //worst case we log on automatically with selenium
 
         }
         catch (Exception e)
         {
-
+            throw new RuntimeException(e);
         }
 
     }
@@ -357,8 +367,11 @@ public class SourceAccess {
                     + "</B></big></big></big>"
                     + result.substring(result.indexOf("</span>")+7);
         }
+        if(result.substring(0, 16).equals("<br><br><br><br>")) {
+            System.out.println("found");
+            result = result.substring(16);
+        }
         return result;
-        //HOW TO DYNAMCIALLY DO HTML
         //THEN PUSH
         //THEN PACKAGE
     }

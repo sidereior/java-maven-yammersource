@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -7,6 +8,8 @@ import java.util.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -16,6 +19,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class SourceAccess {
 
     private static String lastly = "did not work";
+    private static int numPosts = 0;
 
     public static void main(String[] args) {
 
@@ -62,8 +66,24 @@ public class SourceAccess {
             fail++;
         }
         //add html stuff here
-        String ending = solveString("<p class=\"paragraph-458\"><span class=\"text-293\">First image of the black hole at the center of our galaxy</span></p><p class=\"paragraph-458\"><span class=\"text-459\">Once again, Lake Shore helps to advance science</span></p><p class=\"paragraph-458\">&nbsp;</p><p class=\"paragraph-458\">Well, it's sort of a picture of a black hole. More like the stuff <span class=\"text-459\">around </span>the black hole.</p><p class=\"paragraph-458\">&nbsp;</p><p class=\"paragraph-458\">The <a class=\"link-460\" href=\"https://eventhorizontelescope.org/\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://eventhorizontelescope.org/\">Event Horizon Telescope</a>, an international collaboration to link radio dishes around the world, <a class=\"link-460\" href=\"https://physicsworld.com/a/first-ever-image-of-the-black-hole-shadow-at-the-heart-of-the-milky-way-revealed-by-the-event-horizon-telescope/\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://physicsworld.com/a/first-ever-image-of-the-black-hole-shadow-at-the-heart-of-the-milky-way-revealed-by-the-event-horizon-telescope/\">imaged the black hole at the center of the Milky Way</a> recently. This project uses Lake Shore Cernox and silicon diode sensors.</p><p class=\"paragraph-458\">&nbsp;</p><p class=\"paragraph-458\">The <a class=\"link-460\" href=\"https://eventhorizontelescope.org/science\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://eventhorizontelescope.org/science\">method</a> in which the image was created and <a class=\"link-460\" href=\"https://www.space.com/black-hole-movies-event-horizon-telescope\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://www.space.com/black-hole-movies-event-horizon-telescope\">what it means to scientists</a> is pretty fascinating. Also, I don't know about you, but black holes have always seemed pretty terrifying to me. Turns out they're <a class=\"link-460\" href=\"https://www.calacademy.org/explore-science/black-holes-are-nothing-to-fear\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://www.calacademy.org/explore-science/black-holes-are-nothing-to-fear\">much more benign</a> than the massive space Hoover narrative that comes to mind.</p><p class=\"paragraph-458\">&nbsp;</p><p class=\"paragraph-458\">Another amazing way Lake Shore products are advancing science!</p><br><img src=\"https://www.yammer.com/api/v1/uploaded_files/1338279452672/preview/?client_application_id=40443904&fallback_to_icon=false&file_type=image&network_id=674410&storage=SHAREPOINT&uid=1524097277952\"><br><br><img src=\"https://www.yammer.com/api/v1/uploaded_files/1297812873216/preview/?client_application_id=40443904&fallback_to_icon=false&file_type=image&network_id=674410&storage=SHAREPOINT&uid=1524097277952\"><br><br><br><br><p class=\"paragraph-458\"><span class=\"text-293\">The most detailed image of the sun ever taken</span></p><p class=\"paragraph-458\">The European Space Agency and NASA's <a class=\"link-460\" href=\"https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter\">Solar Orbiter</a> just took the most detailed set of images of our star that have ever been taken. You can <a class=\"link-460\" href=\"https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter/Zooming_into_the_Sun_with_Solar_Orbiter\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter/Zooming_into_the_Sun_with_Solar_Orbiter\">zoom in</a> on the composite image to see just how much detail the orbiter was able to capture. The final image was made up of 25 individual images and has a resolution ten times better than what a 4K TV screen can display.</p><p class=\"paragraph-458\">&nbsp;</p><p class=\"paragraph-458\">Lake Shore Cernox and diode sensors are aboard the orbiter. The craft is taking the closest images and also looking at the sun's uncharted polar regions for the first time ever. </p><p class=\"paragraph-458\">&nbsp;</p><p class=\"paragraph-458\">The data and observations will help answer questions that have long been mysteries to solar scientists. Why is the sun's corona so much hotter than its surface? Why does the sun's magnetic activity have an 11-year cycle? Why does the solar wind even exist? </p><p class=\"paragraph-458\">&nbsp;</p><p class=\"paragraph-458\">Just one more way that everyone at Lake Shore is <span class=\"text-293\">ADVANCING SCIENCE</span>! </p><br><img src=\"https://www.yammer.com/api/v1/uploaded_files/1338279452672/preview/?client_application_id=40443904&fallback_to_icon=false&file_type=image&network_id=674410&storage=SHAREPOINT&uid=1524097277952\"><br><br><img src=\"https://www.yammer.com/api/v1/uploaded_files/1297812873216/preview/?client_application_id=40443904&fallback_to_icon=false&file_type=image&network_id=674410&storage=SHAREPOINT&uid=1524097277952\"><br><br><br><br>");
-        System.out.println(ending);
+        lastly = solveString(lastly);
+        File htmlTemplateFile = new File("index.html");
+        try {
+            String htmlString = FileUtils.readFileToString(htmlTemplateFile, (Charset) null);
+            String title = "New Page";
+            String body = "This is Body";
+            htmlString = htmlString.replace("$title", title);
+            htmlString = htmlString.replace("$body", body);
+            File newHtmlFile = new File("new.html");
+            FileUtils.writeStringToFile(newHtmlFile, htmlString, (Charset) null);
+            //worst case we log on automatically with selenium
+
+        }
+        catch (Exception e)
+        {
+
+        }
+
     }
 
     public static String getData(String userID, String target, String username, String pass) throws IOException {
@@ -272,6 +292,7 @@ public class SourceAccess {
                         allTexts = allTexts + "<br>";
                         allTexts = allTexts + htmlFinder;
                         allTexts = allTexts + "<br>";
+                        numPosts++;
                     }
                 }
                 j++;
@@ -336,16 +357,9 @@ public class SourceAccess {
                     + "</B></big></big></big>"
                     + result.substring(result.indexOf("</span>")+7);
         }
-
-
-
+        return result;
         //HOW TO DYNAMCIALLY DO HTML
         //THEN PUSH
         //THEN PACKAGE
-
-
-
-        System.out.println("result: " + result);
-        return "workedFully";
     }
 }

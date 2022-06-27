@@ -15,43 +15,38 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class SourceAccess {
 
-    private static String lastly ="did not work";
+    private static String lastly = "did not work";
+
     public static void main(String[] args) {
 
-        String currTime=Instant.now().toString();
-        if(currTime.substring(11,13).equals("10"))
-        {
+        String currTime = Instant.now().toString();
+        if (currTime.substring(11, 13).equals("10")) {
 
-        }int pass =0;
-        int fail =0;
-        int uniqueFail=0;
-        double prRate=0.0;
-        int x=250;
-
+        }
+        int pass = 0;
+        int fail = 0;
+        int uniqueFail = 0;
+        double prRate = 0.0;
+        int x = 250;
+        if (currTime.substring(11, 13).equals("10"))
         try {
             long firstTime = System.currentTimeMillis();
             long lastTime = System.currentTimeMillis();
-            while(pass!=1 && x>0)
-            {
+            while (pass != 1 && x > 0) {
 
                 String val = getData("1559814952", "null", "yammer@lakeshore.com", "z3K!+V!>OW@>z>KyI#%%");
-                if(val.equals("failcase1"))
-                {
+                if (val.equals("failcase1")) {
                     lastTime = System.currentTimeMillis();
                     fail++;
-                }
-                else if(val.equals("passcase1"))
-                {
+                } else if (val.equals("passcase1")) {
                     lastTime = System.currentTimeMillis();
                     pass++;
 
-                }
-                else
-                {
+                } else {
                     lastTime = System.currentTimeMillis();
                     uniqueFail++;
                 }
-                prRate=100*(pass/x);
+                prRate = 100 * (pass / x);
                 x--;
                 //System.out.printlnn("");
                 //System.out.printlnn("----------TESTCASE" + x + "----------");
@@ -66,8 +61,9 @@ public class SourceAccess {
         } catch (Exception e) {
             fail++;
         }
-
         //add html stuff here
+        String ending = solveString("<p class=\"paragraph-458\"><span class=\"text-293\">First image of the black hole at the center of our galaxy</span></p><p class=\"paragraph-458\"><span class=\"text-459\">Once again, Lake Shore helps to advance science</span></p><p class=\"paragraph-458\">&nbsp;</p><p class=\"paragraph-458\">Well, it's sort of a picture of a black hole. More like the stuff <span class=\"text-459\">around </span>the black hole.</p><p class=\"paragraph-458\">&nbsp;</p><p class=\"paragraph-458\">The <a class=\"link-460\" href=\"https://eventhorizontelescope.org/\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://eventhorizontelescope.org/\">Event Horizon Telescope</a>, an international collaboration to link radio dishes around the world, <a class=\"link-460\" href=\"https://physicsworld.com/a/first-ever-image-of-the-black-hole-shadow-at-the-heart-of-the-milky-way-revealed-by-the-event-horizon-telescope/\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://physicsworld.com/a/first-ever-image-of-the-black-hole-shadow-at-the-heart-of-the-milky-way-revealed-by-the-event-horizon-telescope/\">imaged the black hole at the center of the Milky Way</a> recently. This project uses Lake Shore Cernox and silicon diode sensors.</p><p class=\"paragraph-458\">&nbsp;</p><p class=\"paragraph-458\">The <a class=\"link-460\" href=\"https://eventhorizontelescope.org/science\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://eventhorizontelescope.org/science\">method</a> in which the image was created and <a class=\"link-460\" href=\"https://www.space.com/black-hole-movies-event-horizon-telescope\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://www.space.com/black-hole-movies-event-horizon-telescope\">what it means to scientists</a> is pretty fascinating. Also, I don't know about you, but black holes have always seemed pretty terrifying to me. Turns out they're <a class=\"link-460\" href=\"https://www.calacademy.org/explore-science/black-holes-are-nothing-to-fear\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://www.calacademy.org/explore-science/black-holes-are-nothing-to-fear\">much more benign</a> than the massive space Hoover narrative that comes to mind.</p><p class=\"paragraph-458\">&nbsp;</p><p class=\"paragraph-458\">Another amazing way Lake Shore products are advancing science!</p><br><img src=\"https://www.yammer.com/api/v1/uploaded_files/1338279452672/preview/?client_application_id=40443904&fallback_to_icon=false&file_type=image&network_id=674410&storage=SHAREPOINT&uid=1524097277952\"><br><br><img src=\"https://www.yammer.com/api/v1/uploaded_files/1297812873216/preview/?client_application_id=40443904&fallback_to_icon=false&file_type=image&network_id=674410&storage=SHAREPOINT&uid=1524097277952\"><br><br><br><br><p class=\"paragraph-458\"><span class=\"text-293\">The most detailed image of the sun ever taken</span></p><p class=\"paragraph-458\">The European Space Agency and NASA's <a class=\"link-460\" href=\"https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter\">Solar Orbiter</a> just took the most detailed set of images of our star that have ever been taken. You can <a class=\"link-460\" href=\"https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter/Zooming_into_the_Sun_with_Solar_Orbiter\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter/Zooming_into_the_Sun_with_Solar_Orbiter\">zoom in</a> on the composite image to see just how much detail the orbiter was able to capture. The final image was made up of 25 individual images and has a resolution ten times better than what a 4K TV screen can display.</p><p class=\"paragraph-458\">&nbsp;</p><p class=\"paragraph-458\">Lake Shore Cernox and diode sensors are aboard the orbiter. The craft is taking the closest images and also looking at the sun's uncharted polar regions for the first time ever. </p><p class=\"paragraph-458\">&nbsp;</p><p class=\"paragraph-458\">The data and observations will help answer questions that have long been mysteries to solar scientists. Why is the sun's corona so much hotter than its surface? Why does the sun's magnetic activity have an 11-year cycle? Why does the solar wind even exist? </p><p class=\"paragraph-458\">&nbsp;</p><p class=\"paragraph-458\">Just one more way that everyone at Lake Shore is <span class=\"text-293\">ADVANCING SCIENCE</span>! </p><br><img src=\"https://www.yammer.com/api/v1/uploaded_files/1338279452672/preview/?client_application_id=40443904&fallback_to_icon=false&file_type=image&network_id=674410&storage=SHAREPOINT&uid=1524097277952\"><br><br><img src=\"https://www.yammer.com/api/v1/uploaded_files/1297812873216/preview/?client_application_id=40443904&fallback_to_icon=false&file_type=image&network_id=674410&storage=SHAREPOINT&uid=1524097277952\"><br><br><br><br>");
+        System.out.println(ending);
     }
 
     public static String getData(String userID, String target, String username, String pass) throws IOException {
@@ -83,7 +79,7 @@ public class SourceAccess {
         options.addArguments("start-minimized");
 
         ChromeDriver driver = new ChromeDriver(options);
-        driver.manage().window().setPosition(new Point(-20000,0));
+        driver.manage().window().setPosition(new Point(-20000, 0));
         try {
             long timeStart = System.currentTimeMillis();
             long timeEnd = System.currentTimeMillis();
@@ -295,19 +291,18 @@ public class SourceAccess {
             //System.out.printlnn("reads text");
             //String line = br.readLine();
             //if (exists.exists() &&  line.contains("<br>")) {
-              //  exists.delete();
-                ////System.out.printlnn("runmtime for method = " + ((timeEnd - timeStart)/1000));
-                //return "passcase1";
+            //  exists.delete();
+            ////System.out.printlnn("runmtime for method = " + ((timeEnd - timeStart)/1000));
+            //return "passcase1";
             //}
             ////System.out.printlnn("getshere");
             //System.out.printlnn(allTexts);
             File exists = new File("output" + month + day + year + ".txt");
 
             //gives error connection reset
-            lastly=allTexts;
+            lastly = allTexts;
             return "passcase1";
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             long timeStart = System.currentTimeMillis();
             long timeEnd = System.currentTimeMillis();
             Date date = new Date();
@@ -316,8 +311,7 @@ public class SourceAccess {
             int month = localDate.getMonthValue();
             int day = localDate.getDayOfMonth();
             File exists = new File("output" + month + day + year + ".txt");
-            if(exists.exists())
-            {
+            if (exists.exists()) {
                 exists.delete();
             }
             driver.quit();
@@ -326,62 +320,26 @@ public class SourceAccess {
         }
     }
 
-    public static Double solveString(String result) {
-        String value = "didn't work";
-        String last = "no work";
-        if (result.contains("</small></b></td>")) {
-            value = result.substring(0, result.indexOf("</small></b></td>"));
-            last = value;
-            for (int i = value.length() - 1; i >= 0; i--) {
-                if ((Character.toString(value.charAt(i))).equals(">")) {
-                    last = value.substring(i + 1, value.length());
-                    break;
-                }
-            }
-        } else if (result.contains("</span></b></td>")) {
-            value = result.substring(0, result.indexOf("</span></b></td>"));
-            last = value;
-            for (int i = value.length() - 1; i >= 0; i--) {
-                if ((Character.toString(value.charAt(i))).equals(">")) {
-                    last = value.substring(i + 1, value.length());
-                    break;
-                }
-            }
-        } else if (result.contains("</b></td>")) {
-            value = result.substring(0, result.indexOf("</b></td>"));
-            last = value;
-            for (int i = value.length() - 1; i >= 0; i--) {
-                if ((Character.toString(value.charAt(i))).equals(">")) {
-                    last = value.substring(i + 1, value.length());
-                    break;
-                }
-            }
+    public static String solveString(String result) {
+        String value = result;
+        String last = result;
+        ArrayList<String> paragraphInserts = new ArrayList<String>();
+        ArrayList<String> imageNameInserts = new ArrayList<String>();
+        if (result.contains("<br>")) {
+            value = result.substring(0, result.indexOf("<span class="));
+            last = result.substring(result.indexOf("<span class="), result.indexOf("</span>"));
+            result = result.substring(0, result.indexOf("<span class=")+23)
+                    + "<B><big><big><big>"
+                    + result.substring(result.indexOf("<span class=")+23);
+            result = result.substring(0, result.indexOf("</span>")+7)
+                    + "</B></big></big></big>"
+                    + result.substring(result.indexOf("</span>")+7);
         }
-        if (last.contains("%") || last.contains("M") || last.contains("B") || last.contains("K")) {
-            try {
-                String dubs = (last.substring(0, last.length() - 1));
-                try {
-                    dubs = dubs.replaceAll(",", "");
-                    Double fin = Double.parseDouble(dubs);
-                    return fin;
+        //bolds + makes first line larger
 
-                } catch (NumberFormatException b) {
-                    throw new RuntimeException("could not be resolved to type double");
-                }
-            } catch (NumberFormatException e) {
-                throw new RuntimeException("could not be resovled to type double");
-            }
-        } else {
-            try {
-                String ret2 = last;
-                ret2 = ret2.replaceAll(",", "");
 
-                Double fin = Double.parseDouble(ret2);
-                return fin;
 
-            } catch (NumberFormatException b) {
-                throw new RuntimeException("could not be resolved to type double");
-            }
-        }
+        System.out.println("result: " + result);
+        return "workedFully";
     }
 }

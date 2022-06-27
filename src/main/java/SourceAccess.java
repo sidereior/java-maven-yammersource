@@ -27,24 +27,28 @@ public class SourceAccess {
         int fail =0;
         int uniqueFail=0;
         double prRate=0.0;
-        int x=10;
+        int x=250;
 
         try {
-
+            long firstTime = System.currentTimeMillis();
+            long lastTime = System.currentTimeMillis();
             while(x>0)
             {
 
                 String val = getData("1559814952", "null", "yammer@lakeshore.com", "z3K!+V!>OW@>z>KyI#%%");
                 if(val.equals("failcase1"))
                 {
+                    lastTime = System.currentTimeMillis();
                     fail++;
                 }
                 else if(val.equals("passcase1"))
                 {
+                    lastTime = System.currentTimeMillis();
                     pass++;
                 }
                 else
                 {
+                    lastTime = System.currentTimeMillis();
                     uniqueFail++;
                 }
                 prRate=100*(pass/x);
@@ -71,12 +75,21 @@ public class SourceAccess {
         //target must be formatted properly to a tag, not sure what/how this works yet but when you decide upon a tag need to generate the string for that tag
         // formatting target is awlays cpatial first leet of words
         //String SYM = "[" + target + "]";
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("incognito");
+        options.addArguments("start-maximized");
+        ChromeDriver driver = new ChromeDriver(options);
         try {
-            WebDriverManager.chromedriver().setup();
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("incognito");
-            options.addArguments("start-maximized");
-            ChromeDriver driver = new ChromeDriver(options);
+            long timeStart = System.currentTimeMillis();
+            long timeEnd = System.currentTimeMillis();
+            Date date = new Date();
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int year = localDate.getYear();
+            int month = localDate.getMonthValue();
+            int day = localDate.getDayOfMonth();
+
+
             //driver.manage().window().setPosition(new Point(-2000,0));
             //driver.manage.window.maximize();
             //System.out.println("setProperty");
@@ -223,6 +236,7 @@ public class SourceAccess {
                 }
             }
 
+
             // System.out.println(driver.getCurrentUrl());
             //these lines have unhandled exceptions\
             ArrayList<WebElement> pathList = new ArrayList<WebElement>();
@@ -243,13 +257,17 @@ public class SourceAccess {
                 }
 
             }
-            //System.out.println("existsFor");
+
+            System.out.println("existsFor");
 
             String allTexts = "";
+            System.out.println("pathList size: " + pathList.size());
+
             for (WebElement anElement : pathList) {
                 allTexts = allTexts + anElement.getAttribute("innerHTML");
                 for (int i = 0; i < 50; i++) {
                     if (driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img")).size() != 0) {
+                        System.out.println("foundElement" + i);
                         String finder = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img")).getAttribute("src");
                         String htmlFinder = "<img src=\"" + finder + "\">";
                         allTexts = allTexts + "<br>";
@@ -262,23 +280,44 @@ public class SourceAccess {
                 allTexts = allTexts + new String("<br>");
 
             }
+            System.out.println("parses text");
+            System.out.println("allTexts: " + allTexts);
+            BufferedWriter writer = new BufferedWriter(new FileWriter("output" + month + day + year));
+            writer.write(allTexts);
+            System.out.println("writes text");
+            writer.close();
+            driver.quit();
+            //File exists = new File("output" + month + day + year + ".txt");
+            //BufferedReader br = new BufferedReader(new FileReader(exists));
+            System.out.println("reads text");
+            //String line = br.readLine();
+            //if (exists.exists() &&  line.contains("<br>")) {
+              //  exists.delete();
+                //System.out.println("runmtime for method = " + ((timeEnd - timeStart)/1000));
+                //return "passcase1";
+            //}
+            //System.out.println("getshere");
+            System.out.println(allTexts);
+            File exists = new File("output" + month + day + year + ".txt");
+            exists.delete();
+            //gives error connection reset
+            return "passcase1";
+        }
+        catch (Exception e) {
+            long timeStart = System.currentTimeMillis();
+            long timeEnd = System.currentTimeMillis();
             Date date = new Date();
             LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             int year = localDate.getYear();
             int month = localDate.getMonthValue();
             int day = localDate.getDayOfMonth();
-            System.out.println(allTexts);
-            BufferedWriter writer = new BufferedWriter(new FileWriter("output" + month + day + year));
-            writer.write(allTexts);
-            driver.quit();
             File exists = new File("output" + month + day + year + ".txt");
-            if (exists.exists()) {
-                return "passcase1";
+            if(exists.exists())
+            {
+                exists.delete();
             }
-            //gives error connection reset
-            return "failcase1";
-        }
-        catch (Exception e) {
+            driver.quit();
+
             return "failcase1";
         }
     }

@@ -28,7 +28,7 @@ public class SourceAccess {
         int uniqueFail = 0;
         double prRate = 0.0;
         int x = 250;
-        if (currTime.substring(11, 13).equals("10"))
+        //if (currTime.substring(11, 13).equals("10"))
         try {
             long firstTime = System.currentTimeMillis();
             long lastTime = System.currentTimeMillis();
@@ -260,13 +260,13 @@ public class SourceAccess {
             //System.out.printlnn("existsFor");
 
             String allTexts = "";
+            int j=1;
             //System.out.printlnn("pathList size: " + pathList.size());
-
             for (WebElement anElement : pathList) {
                 allTexts = allTexts + anElement.getAttribute("innerHTML");
                 for (int i = 0; i < 50; i++) {
-                    if (driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img")).size() != 0) {
-                        //System.out.printlnn("foundElement" + i);
+                    if (i==j && driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img")).size() != 0) {
+                        System.out.println("foundElement" + i);
                         String finder = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[4]/ul/li/div/button/div/img")).getAttribute("src");
                         String htmlFinder = "<img src=\"" + finder + "\">";
                         allTexts = allTexts + "<br>";
@@ -274,6 +274,7 @@ public class SourceAccess {
                         allTexts = allTexts + "<br>";
                     }
                 }
+                j++;
                 allTexts = allTexts + new String("<br>");
                 allTexts = allTexts + new String("<br>");
                 allTexts = allTexts + new String("<br>");
@@ -296,7 +297,7 @@ public class SourceAccess {
             //return "passcase1";
             //}
             ////System.out.printlnn("getshere");
-            //System.out.printlnn(allTexts);
+            System.out.println(allTexts);
             File exists = new File("output" + month + day + year + ".txt");
 
             //gives error connection reset
@@ -335,7 +336,12 @@ public class SourceAccess {
                     + "</B></big></big></big>"
                     + result.substring(result.indexOf("</span>")+7);
         }
-        //bolds + makes first line larger
+
+
+
+        //HOW TO DYNAMCIALLY DO HTML
+        //THEN PUSH
+        //THEN PACKAGE
 
 
 

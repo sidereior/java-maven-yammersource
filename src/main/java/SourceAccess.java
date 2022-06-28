@@ -39,17 +39,24 @@ public class SourceAccess {
         int fail = 0;
         int uniqueFail = 0;
         double prRate = 0.0;
-        int x = 250;
+        double avgRuntime = 0.0000;
+        double timeAtStart  = System.currentTimeMillis()/1000;
+        double timeAtEnd = 0.0;
+        int x = 1250;
         try {
             long firstTime = System.currentTimeMillis();
             long lastTime = System.currentTimeMillis();
-            while (pass != 1 && x > 0) {
+            //in actual version change while to: while (pass != 1 && x > 0) {
+            while (x > 0) {
                 String val = getData("1559814952", "null", "yammer@lakeshore.com", "z3K!+V!>OW@>z>KyI#%%");
                 if (val.equals("failcase1")) {
                     lastTime = System.currentTimeMillis();
                     fail++;
                 } else if (val.equals("passcase1")) {
                     lastTime = System.currentTimeMillis();
+                    timeAtEnd  = System.currentTimeMillis()/1000;
+
+                    avgRuntime = (avgRuntime + (timeAtEnd - timeAtStart))/(1250-x);
                     pass++;
 
                 } else {
@@ -57,43 +64,51 @@ public class SourceAccess {
                     uniqueFail++;
                 }
                 prRate = 100 * (pass / x);
+                System.out.println("");
+                System.out.println("----------TESTCASE" + x + "----------");
+                System.out.println("result: " + val);
+                System.out.println("pass: " + pass);
+                System.out.println("fail: " + fail);
+                System.out.println("uniqueFail: " + uniqueFail);
+                System.out.println("prRate: " + prRate);
+                System.out.println("Time taken to run: " + (timeAtEnd - timeAtStart));
+                System.out.println("-------------------------");
+                System.out.println("");
                 x--;
             }
         } catch (Exception e) {
             fail++;
         }
-        //add html stuff here
+        double secondRuntime = System.currentTimeMillis()/1000;
+        double secondLastRuntime = 0.0;
         File htmlTemplateFile = new File("src/main/java/new.html");
         try {
             String htmlString = FileUtils.readFileToString(htmlTemplateFile, "UTF-8");
-            System.out.println(lastly);
+            //System.out.println(lastly);
             String para1 = lastly.substring(0, lastly.indexOf("<br><br><br><br><p class="));
             para1=solveString(para1);
-            System.out.println("para1 " + para1);
+            //System.out.println("para1 " + para1);
             String para2 = lastly.substring(lastly.indexOf("<br><br><br><br><p class="));
             para2=solveString(para2);
-            System.out.println("para2 " + para2);
+            //System.out.println("para2 " + para2);
             htmlString = htmlString.replace("$p1", para1);
             htmlString = htmlString.replace("$p2", para2);
             File newHtmlFile = new File("output/index.html");
             FileUtils.writeStringToFile(newHtmlFile, htmlString, "UTF-8");
-            //output is the current changes version
         }
         catch (Exception e)
         {
             throw new RuntimeException(e);
         }
-
             boolean success = false;
-        //driver.manage().window().setPosition(new Point(-20000, 0));
-            //output 2 is the old repo, need to replace contents of them
             while(!success) {
                 try {
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions options = new ChromeOptions();
                     options.addArguments("incognito");
-                    options.addArguments("start-maximized");
+                    options.addArguments("start-minimized");
                     ChromeDriver driver = new ChromeDriver(options);
+                    driver.manage().window().setPosition(new Point(-20000, 0));
                     driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Fyammerlakeshore%2Fyammerlakeshore.github.io");
                     List<WebElement> someElements = driver.findElements(By.id("login_field"));
                     for (WebElement anElement : someElements) {
@@ -203,6 +218,10 @@ public class SourceAccess {
                     {
                     }
                     driver.quit();
+
+                    secondLastRuntime = System.currentTimeMillis()/1000;
+                    double totalRuntime = avgRuntime + secondRuntime-secondLastRuntime;
+                    System.out.println("TOTAL AVERAGE RUNTIME:" + totalRuntime);
                     success = true;
                 }
                 catch (Exception e)
@@ -215,17 +234,10 @@ public class SourceAccess {
     }
 
     public static String getData(String userID, String target, String username, String pass) throws IOException {
-
-        //make sure it does not contain "replied_to_id"
-        //when you have a target, then line must also contain target
-        //target must be formatted properly to a tag, not sure what/how this works yet but when you decide upon a tag need to generate the string for that tag
-        // formatting target is awlays cpatial first leet of words
-        //String SYM = "[" + target + "]";
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("incognito");
         options.addArguments("start-minimized");
-
         ChromeDriver driver = new ChromeDriver(options);
         driver.manage().window().setPosition(new Point(-20000, 0));
         try {
@@ -236,14 +248,7 @@ public class SourceAccess {
             int year = localDate.getYear();
             int month = localDate.getMonthValue();
             int day = localDate.getDayOfMonth();
-
-
-            //
-            //driver.manage.window.maximize();
-            ////System.out.printlnn("setProperty");
-            ////System.out.printlnn("this occurs?");
             driver.get("https://login.microsoftonline.com/common/oauth2/authorize?client_id=00000005-0000-0ff1-ce00-000000000000&domain_hint=lakeshore.com&msafed=0&nonce=3ff7b976fcfdf4036f7f800c00b067f9555977d10dd53d00112f0565f9a8e79c&redirect_uri=https%3A%2F%2Fpersona.yammer.com%2Foffice_sessions%3F&resource=https%3A%2F%2Fwww.yammer.com%2F&response_mode=form_post&response_type=id_token+code&scope=open_id&site_id=501393&state=1f5398bb9ab572287b8c42027101dc60caba89709b2d8787c963835a1a5474dc&sso_reload=true");
-            ////System.out.printlnn("this occured?");
             try {
                 Thread.sleep(2500);
             } catch (Exception e) {
@@ -263,7 +268,6 @@ public class SourceAccess {
                     ////System.out.printlnn("clicked the button");
                 }
             }
-            //WebElement element = driver.findElement(By.id("i0116"));
             ////System.out.printlnn("finished send login-lookup-container");
             List<WebElement> someElements2 = driver.findElements(By.id("idSIButton9"));
             for (WebElement anElement : someElements2) {
@@ -272,18 +276,13 @@ public class SourceAccess {
                     ////System.out.printlnn("clicked the button");
                 }
             }
-
-            //this is the problem here with some elements
             //////System.out.printlnn(someElements.size());
-
             try {
-                //TODO: make relative to computer that is running it
                 Thread.sleep(2500);
             } catch (Exception e) {
                 return "failcase1";
                 //throw new RuntimeException("Error occurred in loading webpage, check that you have an internet connection.");
             }
-
             ////System.out.printlnn("input pasasssword!!");
             List<WebElement> Pass = driver.findElements(By.id("i0118"));
             ////System.out.printlnn(Pass.size());
@@ -293,7 +292,6 @@ public class SourceAccess {
                     anElement.sendKeys(pass);
                 }
             }
-
             List<WebElement> passSubmit = driver.findElements(By.id("idSIButton9"));
             ////System.out.printlnn(passSubmit.size());
             for (WebElement anElement : passSubmit) {
@@ -306,7 +304,6 @@ public class SourceAccess {
                 return "failcase1";
                 //throw new RuntimeException("Browser failed to click stay signed in on code. Error: " + e.toString());
             }
-
             List<WebElement> noSignIn = driver.findElements(By.id("idBtn_Back"));
             for (WebElement anElement : noSignIn) {
                 if (anElement.getAttribute("class").equals("win-button button-secondary button ext-button secondary ext-secondary")) {
@@ -334,15 +331,6 @@ public class SourceAccess {
                             anElement.sendKeys(Keys.ENTER);
                         }
                     }
-                    //List<WebElement> buttonUsername = driver.findElements(By.cssSelector("button"));
-                    //for (WebElement anElement : noSignIn)
-                    //{
-                    //    if(anElement.getAttribute("class").equals("win-button button-secondary button ext-button secondary ext-secondary"))
-                    //    {
-                    //        anElement.click();
-                    ////System.out.printlnn("clicked no stay sign in key");
-                    //    }
-                    //}
                 }
             }
             try {
@@ -370,8 +358,6 @@ public class SourceAccess {
             } catch (Exception e) {
                 return "failcase1";
             }
-
-
             List<WebElement> seeMore = driver.findElements(By.tagName("button"));
             if (seeMore.size() == 0) {
                 return "failcase1";
@@ -383,12 +369,8 @@ public class SourceAccess {
                     ////System.out.printlnn("clicks see more onc");
                 }
             }
-
-
             // //System.out.printlnn(driver.getCurrentUrl());
-            //these lines have unhandled exceptions\
             ArrayList<WebElement> pathList = new ArrayList<WebElement>();
-            ////*[@id="root"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]
             List<WebElement> textBoxes = driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]"));
             ////System.out.printlnn("--------what we are looking for length: " + textBoxes.size());
             ////System.out.printlnn("here index zero: " + textBoxes.get(0).getAttribute("innerHTML"));
@@ -397,16 +379,10 @@ public class SourceAccess {
             ////System.out.printlnn("index one text: " + textBoxes.get(1).getText());
             for (int i = 1; i < 50; i++) {
                 ////System.out.printlnn("iteration number" + i );
-                ////*[@id="root"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div[2]/ul/li[1]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]
-                ////*[@id="root"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div[2]/ul/li[2]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]
                 if (driver.findElements(By.xpath("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]")).size() != 0) {
-                    ////System.out.printlnn("this ever ran");
                     pathList.add(driver.findElement(By.xpath(new String("//*[@id=\"root\"]/div/div[2]/div/div[2]/div/div/div/div/div/div[2]/ul/li[" + i + "]/div/div/div/div/div/div/div[1]/div[3]/div/div/div/span[1]"))));
                 }
             }
-
-            //System.out.printlnn("existsFor");
-
             String allTexts = "";
             int j=1;
             //System.out.printlnn("pathList size: " + pathList.size());
@@ -427,7 +403,6 @@ public class SourceAccess {
                 allTexts = allTexts + new String("<br>");
                 allTexts = allTexts + new String("<br>");
                 allTexts = allTexts + new String("<br>");
-
             }
             //System.out.printlnn("parses text");
             //System.out.printlnn("allTexts: " + allTexts);
@@ -436,19 +411,8 @@ public class SourceAccess {
             //System.out.printlnn("writes text");
             writer.close();
             driver.quit();
-            //File exists = new File("output" + month + day + year + ".txt");
-            //BufferedReader br = new BufferedReader(new FileReader(exists));
-            //System.out.printlnn("reads text");
-            //String line = br.readLine();
-            //if (exists.exists() &&  line.contains("<br>")) {
-            //  exists.delete();
-            ////System.out.printlnn("runmtime for method = " + ((timeEnd - timeStart)/1000));
-            //return "passcase1";
-            //}
-            ////System.out.printlnn("getshere");
             System.out.println(allTexts);
             File exists = new File("C:\\Users\\alex.nanda\\IdeaProjects\\java-maven-yammersource\\output\\output" + month + day + year + ".txt");
-
             //gives error connection reset
             lastly = allTexts;
             return "passcase1";
@@ -486,11 +450,9 @@ public class SourceAccess {
                     + result.substring(result.indexOf("</span>")+7);
         }
         if(result.substring(0, 16).equals("<br><br><br><br>")) {
-            System.out.println("found");
+            //System.out.println("found");
             result = result.substring(16);
         }
         return result;
-        //THEN PUSH
-        //THEN PACKAGE
     }
 }

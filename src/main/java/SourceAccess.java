@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.eclipse.jgit.api.*;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -65,35 +70,53 @@ public class SourceAccess {
             fail++;
         }
         //add html stuff here
-        File htmlTemplateFile = new File("new.html");
+        File htmlTemplateFile = new File("src/main/java/new.html");
         try {
-            System.out.println("here1");
             String htmlString = FileUtils.readFileToString(htmlTemplateFile, "UTF-8");
-            System.out.println("here2");
             String para1 = lastly.substring(0, lastly.indexOf("<br><br><br><br><p class="));
             para1=solveString(para1);
-            System.out.println(para1);
-            System.out.println("here3");
+            System.out.println("para1 " + para1);
             String para2 = lastly.substring(lastly.indexOf("<br><br><br><br><p class="));
             para2=solveString(para2);
-            System.out.println(para2);
-            System.out.println("here4");
+            System.out.println("para2 " + para2);
             htmlString = htmlString.replace("$p1", para1);
-            System.out.println("here5");
             htmlString = htmlString.replace("$p2", para2);
-            System.out.println("here6");
-            File newHtmlFile = new File("index.html");
-            System.out.println("here7");
+            File newHtmlFile = new File("output/index.html");
             FileUtils.writeStringToFile(newHtmlFile, htmlString, "UTF-8");
-            System.out.println("here8");
-            //worst case we log on automatically with selenium
+            System.out.println("output file created");
+        }
+        catch (Exception e)
+        {
+            System.out.println("error");
+        }
+        try
+        {
+            Date date = new Date();
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            int year = localDate.getYear();
+            int month = localDate.getMonthValue();
+            int day = localDate.getDayOfMonth();
+            Git git = Git.open(new File("output"));
+            //need to put \\ here?
 
+            AddCommand add = git.add();
+            add.addFilepattern("output");
+            add.call();
+            CommitCommand commit = git.commit();
+            commit.setMessage("commit for " + month + "/" + day + "/" + year);
+            commit.call();
+            RemoteAddCommand remoteAddCommand = git.remoteAdd();
+            remoteAddCommand.setName("origin");
+            remoteAddCommand.setUri(new URIish("https://github.com/yammerlakeshore/yammerlakeshore.github.io"));
+            remoteAddCommand.call();
+            PushCommand pushCommand = git.push();
+            pushCommand.setCredentialsProvider(new UsernamePasswordCredentialsProvider("yammerlakeshore", "Githubpass1"));
+            pushCommand.call();
         }
         catch (Exception e)
         {
             throw new RuntimeException(e);
         }
-
     }
 
     public static String getData(String userID, String target, String username, String pass) throws IOException {
@@ -329,7 +352,7 @@ public class SourceAccess {
             //}
             ////System.out.printlnn("getshere");
             System.out.println(allTexts);
-            File exists = new File("output" + month + day + year + ".txt");
+            File exists = new File("C:\\Users\\alex.nanda\\IdeaProjects\\java-maven-yammersource\\output\\output" + month + day + year + ".txt");
 
             //gives error connection reset
             lastly = allTexts;

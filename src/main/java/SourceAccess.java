@@ -221,7 +221,7 @@ public class SourceAccess {
 
                     secondLastRuntime = System.currentTimeMillis()/1000;
                     double totalRuntime = avgRuntime + secondRuntime-secondLastRuntime;
-                    System.out.println("TOTAL AVERAGE RUNTIME:" + totalRuntime);
+                    System.out.println("TOTAL AVERAGE RUNTIME: " + totalRuntime);
                     success = true;
                 }
                 catch (Exception e)

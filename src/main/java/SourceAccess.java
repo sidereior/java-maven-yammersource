@@ -10,9 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.eclipse.jgit.api.*;
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.openqa.selenium.*;
@@ -28,16 +32,14 @@ public class SourceAccess {
 
     public static void main(String[] args) {
 
+        lastly = "<p class=\"paragraph-427\"><span class=\"text-351\">First image of the black hole at the center of our galaxy</span></p><p class=\"paragraph-427\"><span class=\"text-428\">Once again, Lake Shore helps to advance science</span></p><p class=\"paragraph-427\">&nbsp;</p><p class=\"paragraph-427\">Well, it's sort of a picture of a black hole. More like the stuff <span class=\"text-428\">around </span>the black hole.</p><p class=\"paragraph-427\">&nbsp;</p><p class=\"paragraph-427\">The <a class=\"link-429\" href=\"https://eventhorizontelescope.org/\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://eventhorizontelescope.org/\">Event Horizon Telescope</a>, an international collaboration to link radio dishes around the world, <a class=\"link-429\" href=\"https://physicsworld.com/a/first-ever-image-of-the-black-hole-shadow-at-the-heart-of-the-milky-way-revealed-by-the-event-horizon-telescope/\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://physicsworld.com/a/first-ever-image-of-the-black-hole-shadow-at-the-heart-of-the-milky-way-revealed-by-the-event-horizon-telescope/\">imaged the black hole at the center of the Milky Way</a> recently. This project uses Lake Shore Cernox and silicon diode sensors.</p><p class=\"paragraph-427\">&nbsp;</p><p class=\"paragraph-427\">The <a class=\"link-429\" href=\"https://eventhorizontelescope.org/science\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://eventhorizontelescope.org/science\">method</a> in which the image was created and <a class=\"link-429\" href=\"https://www.space.com/black-hole-movies-event-horizon-telescope\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://www.space.com/black-hole-movies-event-horizon-telescope\">what it means to scientists</a> is pretty fascinating. Also, I don't know about you, but black holes have always seemed pretty terrifying to me. Turns out they're <a class=\"link-429\" href=\"https://www.calacademy.org/explore-science/black-holes-are-nothing-to-fear\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://www.calacademy.org/explore-science/black-holes-are-nothing-to-fear\">much more benign</a> than the massive space Hoover narrative that comes to mind.</p><p class=\"paragraph-427\">&nbsp;</p><p class=\"paragraph-427\">Another amazing way Lake Shore products are advancing science!</p><br><img src=\"https://www.yammer.com/api/v1/uploaded_files/1338279452672/preview/?client_application_id=40443904&fallback_to_icon=false&file_type=image&network_id=674410&storage=SHAREPOINT&uid=1524097277952\"><br><br><br><br><p class=\"paragraph-427\"><span class=\"text-351\">The most detailed image of the sun ever taken</span></p><p class=\"paragraph-427\">The European Space Agency and NASA's <a class=\"link-429\" href=\"https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter\">Solar Orbiter</a> just took the most detailed set of images of our star that have ever been taken. You can <a class=\"link-429\" href=\"https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter/Zooming_into_the_Sun_with_Solar_Orbiter\" rel=\"nofollow noopener noreferrer\" target=\"_blank\" title=\"https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter/Zooming_into_the_Sun_with_Solar_Orbiter\">zoom in</a> on the composite image to see just how much detail the orbiter was able to capture. The final image was made up of 25 individual images and has a resolution ten times better than what a 4K TV screen can display.</p><p class=\"paragraph-427\">&nbsp;</p><p class=\"paragraph-427\">Lake Shore Cernox and diode sensors are aboard the orbiter. The craft is taking the closest images and also looking at the sun's uncharted polar regions for the first time ever. </p><p class=\"paragraph-427\">&nbsp;</p><p class=\"paragraph-427\">The data and observations will help answer questions that have long been mysteries to solar scientists. Why is the sun's corona so much hotter than its surface? Why does the sun's magnetic activity have an 11-year cycle? Why does the solar wind even exist? </p><p class=\"paragraph-427\">&nbsp;</p><p class=\"paragraph-427\">Just one more way that everyone at Lake Shore is <span class=\"text-351\">ADVANCING SCIENCE</span>! </p><br><img src=\"https://www.yammer.com/api/v1/uploaded_files/1297812873216/preview/?client_application_id=40443904&fallback_to_icon=false&file_type=image&network_id=674410&storage=SHAREPOINT&uid=1524097277952\"><br><br><br><br>";
         String currTime = Instant.now().toString();
-        if (currTime.substring(11, 13).equals("10")) {
-
-        }
         int pass = 0;
         int fail = 0;
         int uniqueFail = 0;
         double prRate = 0.0;
         int x = 250;
-        //if (currTime.substring(11, 13).equals("10"))
+        if (currTime.substring(11, 13).equals("10"))
         try {
             long firstTime = System.currentTimeMillis();
             long lastTime = System.currentTimeMillis();
@@ -56,15 +58,6 @@ public class SourceAccess {
                 }
                 prRate = 100 * (pass / x);
                 x--;
-                //System.out.printlnn("");
-                //System.out.printlnn("----------TESTCASE" + x + "----------");
-                //System.out.printlnn("result: " + val);
-                //System.out.printlnn("pass: " + pass);
-                //System.out.printlnn("fail: " + fail);
-                //System.out.printlnn("uniqueFail: " + uniqueFail);
-                //System.out.printlnn("prRate: " + prRate);
-                //System.out.printlnn("-------------------------");
-                //System.out.printlnn("");
             }
         } catch (Exception e) {
             fail++;
@@ -73,6 +66,7 @@ public class SourceAccess {
         File htmlTemplateFile = new File("src/main/java/new.html");
         try {
             String htmlString = FileUtils.readFileToString(htmlTemplateFile, "UTF-8");
+            System.out.println(lastly);
             String para1 = lastly.substring(0, lastly.indexOf("<br><br><br><br><p class="));
             para1=solveString(para1);
             System.out.println("para1 " + para1);
@@ -83,40 +77,51 @@ public class SourceAccess {
             htmlString = htmlString.replace("$p2", para2);
             File newHtmlFile = new File("output/index.html");
             FileUtils.writeStringToFile(newHtmlFile, htmlString, "UTF-8");
-            System.out.println("output file created");
-        }
-        catch (Exception e)
-        {
-            System.out.println("error");
-        }
-        try
-        {
-            Date date = new Date();
-            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            int year = localDate.getYear();
-            int month = localDate.getMonthValue();
-            int day = localDate.getDayOfMonth();
-            Git git = Git.open(new File("output"));
-            //need to put \\ here?
-
-            AddCommand add = git.add();
-            add.addFilepattern("output");
-            add.call();
-            CommitCommand commit = git.commit();
-            commit.setMessage("commit for " + month + "/" + day + "/" + year);
-            commit.call();
-            RemoteAddCommand remoteAddCommand = git.remoteAdd();
-            remoteAddCommand.setName("origin");
-            remoteAddCommand.setUri(new URIish("https://github.com/yammerlakeshore/yammerlakeshore.github.io"));
-            remoteAddCommand.call();
-            PushCommand pushCommand = git.push();
-            pushCommand.setCredentialsProvider(new UsernamePasswordCredentialsProvider("yammerlakeshore", "Githubpass1"));
-            pushCommand.call();
+            //output is the current changes version
         }
         catch (Exception e)
         {
             throw new RuntimeException(e);
         }
+
+            boolean success = false;
+            //output 2 is the old repo, need to replace contents of them
+            while(!success) {
+                try {
+                    Date date = new Date();
+                    LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    int year = localDate.getYear();
+                    int month = localDate.getMonthValue();
+                    int day = localDate.getDayOfMonth();
+                   // UsernamePasswordCredentialsProvider creds = new UsernamePasswordCredentialsProvider("sidereior", "An20253!");
+                    CredentialsProvider credProvider = new UsernamePasswordCredentialsProvider("yammerlakeshore", "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!");
+                    Git git = Git.cloneRepository().setURI("https://github.com/yammerlakeshore/yammerlakeshore.github.io").setDirectory(new File("output2")).call();
+                    File file = new File("output2/index.html");
+                    file.createNewFile();
+                    git.add().addFilepattern(".").call();
+                    git.commit().setMessage("commit for " + month + "/" + day + "/" + year).call();
+                    git.push().setCredentialsProvider(credProvider).setRemote("origin").call();
+                    git.close();
+                    //RemoteAddCommand remoteAddCommand = git.remoteAdd();
+                    //remoteAddCommand.setName("main");
+                    //remoteAddCommand.setUri(new URIish("https://github.com/yammerlakeshore/yammerlakeshore.github.io"));
+                   // remoteAddCommand.call();
+                   // PushCommand pushCommand = git.push();
+                   // pushCommand.setCredentialsProvider(creds);
+                   // pushCommand.call();
+                    git.getRepository().close();
+                    FileUtils.deleteDirectory(new File("output2"));
+                    success = true;
+                    System.out.println("failed once, trying again");
+                }
+                catch (Exception e)
+                {
+                    System.out.println("first section failed");
+                    throw new RuntimeException(e);
+
+                }
+            }
+            //delete output 2 after
     }
 
     public static String getData(String userID, String target, String username, String pass) throws IOException {

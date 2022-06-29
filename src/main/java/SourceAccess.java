@@ -129,6 +129,7 @@ public class SourceAccess {
                 //System.out.println(("lastly at index " + index + " is " + lastly.substring(index, lastly.indexOf("<br><br><br><br><p class=", index + 1))));
                 //ptwotopten.add(lastly.substring(index, lastly.indexOf("<br><br><br><br><p class=", index + 1)));
             }
+            int numIterTwo =0;
             for(String b: ptwotopten)
             {
                 b=solveString(b);
@@ -143,8 +144,15 @@ public class SourceAccess {
                 }
                 b = b.substring(0, b.indexOf("<img src=")) + parapb;
                 //System.out.println(b);
-                htmlString = htmlString.replace("$p" + ptwotopten.indexOf(b)+2, b);
+                //System.out.println(numIterTwo+2);
+                int whydoesthisevenhappen = numIterTwo+2;
+                String toReplace = "$p" + whydoesthisevenhappen;
+                //System.out.println(toReplace);
+                htmlString = htmlString.replace(toReplace, b);
+                numIterTwo++;
             }
+            //System.out.println(htmlString.contains("$p1"));
+            //System.out.println(htmlString.contains("$p2"));
             ////System.out.println("para2 " + para2);
             File newHtmlFile = new File("C:\\Users\\alex.nanda\\IdeaProjects\\java-maven-yammersource\\output\\index.html");
             FileUtils.writeStringToFile(newHtmlFile, htmlString, "UTF-8");
@@ -159,9 +167,9 @@ public class SourceAccess {
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions options = new ChromeOptions();
                     options.addArguments("incognito");
-                    options.addArguments("start-minimized");
+                    options.addArguments("start-maximized");
                     ChromeDriver driver = new ChromeDriver(options);
-                    driver.manage().window().setPosition(new Point(-20000, 0));
+                    //driver.manage().window().setPosition(new Point(-20000, 0));
                     driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Fyammerlakeshore%2Fyammerlakeshore.github.io");
                     List<WebElement> someElements = driver.findElements(By.id("login_field"));
                     for (WebElement anElement : someElements) {
@@ -290,9 +298,9 @@ public class SourceAccess {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("incognito");
-        options.addArguments("start-minimized");
+        options.addArguments("start-maximized");
         ChromeDriver driver = new ChromeDriver(options);
-        driver.manage().window().setPosition(new Point(-20000, 0));
+        //driver.manage().window().setPosition(new Point(-20000, 0));
         try {
             long timeStart = System.currentTimeMillis();
             long timeEnd = System.currentTimeMillis();

@@ -23,7 +23,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
-
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class SourceAccess {
 
@@ -99,26 +100,52 @@ public class SourceAccess {
                 }
             }
             para1 = para1.substring(0, para1.indexOf("<img src=")) + para1p1;
+            htmlString = htmlString.replace("$p1", para1);
             //System.out.println(para1);
             //System.out.println(para1p1);
             ////System.out.println("para1 " + para1);
-            String para2 = lastly.substring(lastly.indexOf("<br><br><br><br><p class="));
-            para2=solveString(para2);
-            String para1p2=para2;
-            para1p2=para2.substring(para2.indexOf("<img src="));
-            System.out.println(para1p2);
-            for(int i=0; i<para1p2.length(); i++)
-            {
-                if(para1p2.charAt(i)=='>')
+            int index = lastly.indexOf("<br><br><br><br><p class=");
+            ArrayList<String> ptwotopten = new ArrayList<String>();
+            int numiter=0;
+            while (index >= 0) {
+                //System.out.println("index " + index);
+                if(lastly.indexOf("<br><br><br><br><p class=", index + 1)>0)
                 {
-                    para1p2=para1p2.substring(0,i-1) + " style=\"float:right\"" + para1p2.substring(i);
-                    break;
+                    //at least one more left
+
+                    ptwotopten.add(lastly.substring(index, lastly.indexOf("<br><br><br><br><p class=", index + 1)));
+                    index = lastly.indexOf("<br><br><br><br><p class=", index + 1);
+                    //System.out.println(ptwotopten.get(numiter));
                 }
+                else
+                {
+                    //at last post
+                    ptwotopten.add(lastly.substring(index));
+                    index = -1;
+                    //System.out.println(ptwotopten.get(numiter));
+                }
+                numiter++;
+                //index = lastly.indexOf("<br><br><br><br><p class=", index + 1);
+                //System.out.println(("lastly at index " + index + " is " + lastly.substring(index, lastly.indexOf("<br><br><br><br><p class=", index + 1))));
+                //ptwotopten.add(lastly.substring(index, lastly.indexOf("<br><br><br><br><p class=", index + 1)));
             }
-            para2 = para2.substring(0, para2.indexOf("<img src=")) + para1p2;
+            for(String b: ptwotopten)
+            {
+                b=solveString(b);
+                String parapb = b.substring(b.indexOf("<img src="));
+                for(int i=0; i<parapb.length(); i++)
+                {
+                    if(parapb.charAt(i)=='>')
+                    {
+                        parapb=parapb.substring(0,i-1) + " style=\"float:right\"" + parapb.substring(i);
+                        break;
+                    }
+                }
+                b = b.substring(0, b.indexOf("<img src=")) + parapb;
+                //System.out.println(b);
+                htmlString = htmlString.replace("$p" + ptwotopten.indexOf(b)+2, b);
+            }
             ////System.out.println("para2 " + para2);
-            htmlString = htmlString.replace("$p1", para1);
-            htmlString = htmlString.replace("$p2", para2);
             File newHtmlFile = new File("C:\\Users\\alex.nanda\\IdeaProjects\\java-maven-yammersource\\output\\index.html");
             FileUtils.writeStringToFile(newHtmlFile, htmlString, "UTF-8");
         }

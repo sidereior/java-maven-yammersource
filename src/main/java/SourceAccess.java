@@ -48,7 +48,7 @@ public class SourceAccess {
             long firstTime = System.currentTimeMillis();
             long lastTime = System.currentTimeMillis();
             while (pass != 1 && x > 0) {
-                String val = getData("1559814952", "null", "yammer@lakeshore.com", "z3K!+V!>OW@>z>KyI#%%");
+                String val = getData("1559814952", "null", "", "");
                 if (val.equals("failcase1")) {
                     lastTime = System.currentTimeMillis();
                     fail++;
@@ -174,13 +174,13 @@ public class SourceAccess {
                     List<WebElement> someElements = driver.findElements(By.id("login_field"));
                     for (WebElement anElement : someElements) {
                         if (anElement.getAttribute("name").equals("login")) {
-                            anElement.sendKeys("yammerlakeshore");
+                            anElement.sendKeys("");
                         }
                     }
                     List<WebElement> somePasswords = driver.findElements(By.id("password"));
                     for (WebElement anElement : somePasswords) {
                         if (anElement.getAttribute("name").equals("password")) {
-                            anElement.sendKeys("Githubpass1");
+                            anElement.sendKeys("");
                             anElement.sendKeys(Keys.ENTER);
                         }
                     }

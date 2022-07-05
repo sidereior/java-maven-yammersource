@@ -55,9 +55,9 @@ public class SourceAccess {
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("incognito");
-                options.addArguments("start-maximized");
+                options.addArguments("start-minimized");
                 ChromeDriver driver = new ChromeDriver(options);
-                //driver.manage().window().setPosition(new Point(-20000, 0));
+                driver.manage().window().setPosition(new Point(-20000, 0));
                 driver.get("https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Fyammerlakeshore%2Fyammerlakeshore.github.io");
                 //Opens login page for github pages project at github.com/yammerlakeshore/yammerlakeshore.github.io.
                 List<WebElement> someElements = driver.findElements(By.id("login_field"));
@@ -350,9 +350,9 @@ public class SourceAccess {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("incognito");
-        options.addArguments("start-maximized");
+        options.addArguments("start-minimized");
         ChromeDriver driver = new ChromeDriver(options);
-        //driver.manage().window().setPosition(new Point(-20000, 0));
+        driver.manage().window().setPosition(new Point(-20000, 0));
         try {
             long timeStart = System.currentTimeMillis();
             long timeEnd = System.currentTimeMillis();

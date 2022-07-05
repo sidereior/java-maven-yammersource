@@ -64,7 +64,7 @@ public class SourceAccess {
                 //Locates login field.
                 for (WebElement anElement : someElements) {
                     if (anElement.getAttribute("name").equals("login")) {
-                        anElement.sendKeys("yammerlakeshore");
+                        anElement.sendKeys("");
                         //Types username in login field.
                     }
                 }
@@ -72,7 +72,7 @@ public class SourceAccess {
                 //Locates password field.
                 for (WebElement anElement : somePasswords) {
                     if (anElement.getAttribute("name").equals("password")) {
-                        anElement.sendKeys("Githubpass1");
+                        anElement.sendKeys("");
                         anElement.sendKeys(Keys.ENTER);
                         //Types password in password field and waits for github to redirect.
                     }
@@ -311,7 +311,7 @@ public class SourceAccess {
             //Until it has properly got the source code and html code as a text file, it will keep trying.
             while (pass != 1 && x > 0) {
                 //Get data method logs into yammer and gets the source code of the post and the html code of the image.
-                String val = getData("1559814952", "null", "yammer@lakeshore.com", "z3K!+V!>OW@>z>KyI#%%");
+                String val = getData("1559814952", "null", "", "");
                 if (val.equals("failcase1")) {
                     //lastTime = System.currentTimeMillis();
                     //Fails are common issues caused by a number of formatting issues with Yammer and getting these elements through Selenium.

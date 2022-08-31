@@ -1,5 +1,5 @@
 <h1> Yammer Web Scraping Tool
-<h2> made for Lake Shore Cryotronics
+<h2> made for Lake Shore Cryotronics <h>
 
 This project can be generalized to fit any yammer website by changing the url, and changing the static approach to 
 logging into the website.
